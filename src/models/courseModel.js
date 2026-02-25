@@ -1,0 +1,53 @@
+const mongoose = require("mongoose");
+
+const tabDataSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  subtitle: { type: String },
+  image: { type: String },
+  price: { type: Number },
+});
+
+const curriculumSchema = new mongoose.Schema({
+  question: { type: String, required: true },
+  answers: [{ type: String }],
+});
+
+const certificateSchema = new mongoose.Schema({
+  certifier: { type: String },
+  certifierColor: { type: String },
+  certificateImg: { type: String },
+  bannerImg: { type: String },
+});
+
+const courseSchema = new mongoose.Schema(
+  {
+    courseCode: { type: String, required: true, unique: true },
+    courseName: { type: String, required: true },
+
+    tabData: {
+      "Certification": tabDataSchema,
+      "E-Learning Course": tabDataSchema,
+    },
+
+    curriculum: [curriculumSchema],
+
+    banner: {
+      videoUrl: { type: String },
+    },
+
+    video: {
+      videoUrl: { type: String },
+    },
+
+    highlights: [{ type: String }],
+
+    certificate: certificateSchema,
+
+    // New fields
+    syllabus: { type: String }, // e.g., PDF or webpage link
+    coursewareLink: { type: String }, // external courseware link
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Course", courseSchema);
